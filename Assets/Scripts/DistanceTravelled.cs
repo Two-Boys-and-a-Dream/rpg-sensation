@@ -8,6 +8,7 @@ public class DistanceTravelled : MonoBehaviour
     public float distanceTravelled;
     private Vector3 lastPosition;
     public float totalDistanceTraveled;
+    public bool inCombat = false;
     // Start is called before the first frame update
     public GameObject player;
     void Start()
@@ -18,31 +19,36 @@ public class DistanceTravelled : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distanceTravelled += Vector3.Distance(transform.position, lastPosition);
-        lastPosition = transform.position;
-        
-        
-        if (distanceTravelled > 5f)
+        // if (!inCombat)
+        if (inCombat == false)
         {
-            totalDistanceTraveled += distanceTravelled;
-            
-            distanceTravelled = 0f;
-            TriggerEncounter();
+            distanceTravelled += Vector3.Distance(transform.position, lastPosition);
+            lastPosition = transform.position;
+
+
+            if (distanceTravelled > 5f)
+            {
+                totalDistanceTraveled += distanceTravelled;
+
+                distanceTravelled = 0f;
+                TriggerEncounter();
+            }
         }
-        
+
+
     }
 
     private void TriggerEncounter()
     {
         float randomNum = Random.Range(0f, 100f);
-        print(randomNum);
-        print(randomNum + totalDistanceTraveled);
+        // print(randomNum);
+        // print(randomNum + totalDistanceTraveled);
         if (randomNum + totalDistanceTraveled > 125f)
         {
             //This is where we want to move the player into the battle scene
             SceneManager.LoadScene("BattleMap");
             // SceneManager.MoveGameObjectToScene;
-            print("Encounter");
+            // print("Encounter");
         }
     }
 }
